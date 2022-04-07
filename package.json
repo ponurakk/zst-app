@@ -1,0 +1,25 @@
+{
+    "version": "1.0.0.3",
+    "name": "zst-app",
+    "app-name": "zst-app",
+    "package-name": "static_app",
+    "project-type": "static",
+    "icon": "./assets/icon/icon.png",
+    "dist-path": "./dist",
+    "permission": [
+        "android.permission.INTERNET"
+    ],
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "scripts": {
+        "build": "androidjs b -f"
+    },
+    "project-name": "zst-app",
+    "theme": {
+        "fullScreen": true
+    },
+    "dependencies": {
+        "androidjs": "^2.0.4"
+    }
+}

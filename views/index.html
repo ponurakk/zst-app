@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body onLoad="buildHtmlTable('#table')">
+        <input type="text" id="tableInput" onkeyup="search(0, 'tableInput')" placeholder="Wyszukaj nauczyciela">
+        <input type="text" id="tableInput2" onkeyup="search(1, 'tableInput2')" placeholder="Wyszukaj przedmiot">
+      <table id="table">
+      </table>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var array = [{"name":"Niemiec Edyta","subject":"Dyrektor szkoły - Przedmioty zawodowe informatyczne"},{"name":"Konior-Oleszko Monika","subject":"Wicedyrektor szkoły - Historia/Wos"},{"name":"Bury Eugeniusz","subject":"Wicedyrektor szkoły - Przedmioty zawodowe elektroniczne"},{"name":"Balawender Ireneusz","subject":"Przedmioty zawodowe informatyczne"},{"name":"Barciński Marcin","subject":"Przedmioty zawodowe informatyczne"},{"name":"Buć Bartosz","subject":"Język angielski"},{"name":"Chwała Ewelina","subject":"Wychowanie fizyczne"},{"name":"Długosz-Tacik Agnieszka","subject":"Zajęcia rewalidacyjne"},{"name":"Drąg Maria","subject":"Religia"},{"name":"ks. Dąbrowski Grzegorz","subject":"Religia"},{"name":"Ficek Janusz","subject":"Przedmioty zawodowe elektroniczne"},{"name":"Fugas Anna","subject":"Język angielski"},{"name":"Gajewska Barbara","subject":"Edukacja dla bezpieczeństwa"},{"name":"Gątarski Krzysztof","subject":"Przedmioty zawodowe informatyczne"},{"name":"Gelleta Anita","subject":"Wychowanie fizyczne"},{"name":"Guzik Krzysztof","subject":"Język polski"},{"name":"Haluk-Słapińska Joanna","subject":"Język angielski"},{"name":"Hudaszek Agnieszka","subject":"Matematyka"},{"name":"Kalandyk Urszula","subject":"Geografia"},{"name":"Kamińska Lucyna","subject":"Geografia"},{"name":"Książek Katarzyna","subject":"Język polski"},{"name":"Kontek Renata","subject":"Matematyka"},{"name":"Kołodziej Magdalena","subject":"Język niemiecki"},{"name":"Kozłowski Jacek","subject":"Język angielski"},{"name":"Kraska Piotr","subject":"Przedmioty zawodowe informatyczne"},{"name":"ks. Kryk Bohdan","subject":"Religia"},{"name":"Krzywonos Monika","subject":"Przedmioty zawodowe informatyczne"},{"name":"Leszczyk Beata","subject":"Język niemiecki"},{"name":"Leja Anna","subject":"Plastyka"},{"name":"Litwin Karolina","subject":"Język polski"},{"name":"Machowski Mikołaj","subject":"Przedmioty zawodowe mechaniczne"},{"name":"Malczewska Teresa","subject":"Matematyka"},{"name":"Mazur Edyta","subject":"Historia"},{"name":"Mazurkow Bożena","subject":"Historia"},{"name":"Mentel Urszula","subject":"Przedmioty zawodowe - reklama"},{"name":"Milczanowska Anna","subject":"Język polski"},{"name":"Możdżeń Rafał","subject":"Wychowanie fizyczne"},{"name":"Musiał Grzegorz","subject":"Wychowanie fizyczne"},{"name":"Musiał Mariusz","subject":"Język angielski"},{"name":"Niedbała Leszek","subject":"Przedmioty zawodowe informatyczne"},{"name":"Nabożny Wojciech","subject":"Przedmioty zawodowe mechaniczne"},{"name":"Marzena Hebdzińska","subject":"Język angielski"},{"name":"Pawłowski Piotr","subject":"Przedmioty zawodowe informatyczne"},{"name":"Katarzyna Matuła","subject":"Język angielski"},{"name":"Pieniążek-Sak Agata","subject":"Zajęcia rewalidacyjne"},{"name":"Pilawski Wojciech","subject":"Przedmioty zawodowe informatyczne"},{"name":"Pitera Anna","subject":"Matematyka"},{"name":"Poźniak Anna","subject":"Biologia"},{"name":"Przeszłowska Marta","subject":"Matematyka"},{"name":"Radecki Waldemar","subject":"Przedmioty zawodowe mechaniczne"},{"name":"Skoczylas-Pilat Iwona","subject":"Chemia"},{"name":"Sowa Katarzyna","subject":"Przedmioty zawodowe - reklama"},{"name":"Stalec Józef","subject":"Język polski"},{"name":"Szalacha Dominika","subject":"Język angielski"},{"name":"Szeliga Joanna","subject":"Fizyka"},{"name":"Szeliga Jerzy","subject":"Wychowanie fizyczne"},{"name":"Świeca Janusz","subject":"Wychowanie fizyczne"},{"name":"Tereszkiewicz Aneta","subject":"Przedmioty zawodowe informatyczne"},{"name":"Twardowska Dorota","subject":"Język niemiecki"},{"name":"Urbanik Marek","subject":"Przedmioty zawodowe mechaniczne"},{"name":"Wilkos Jolanta","subject":"Matematyka"},{"name":"Wolanin Elżbieta","subject":"Przedmioty zawodowe informatyczne"},{"name":"Bieniek Danuta","subject":"Geografia"},{"name":"Dąbrowski Piotr","subject":"Przedmioty zawodowe informatyczne"}];
+
+    function buildHtmlTable(selector) {
+      var columns = addAllColumnHeaders(array, selector);
+
+      for (var i = 0; i < array.length; i++) {
+        var row$ = $('<tr/>');
+        for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+          var cellValue = array[i][columns[colIndex]];
+          if (cellValue == null) cellValue = "";
+          row$.append($('<td/>').html(cellValue));
+        }
+        $(selector).append(row$);
+      }
+    }
+
+    function addAllColumnHeaders(array, selector) {
+      var columnSet = [];
+      var headerTr$ = $('<tr/>');
+
+      for (var i = 0; i < array.length; i++) {
+        var rowHash = array[i];
+        for (var key in rowHash) {
+          if ($.inArray(key, columnSet) == -1) {
+            columnSet.push(key);
+            headerTr$.append($('<th/>').html(key));
+          }
+        }
+      }
+      $(selector).append(headerTr$);
+
+      return columnSet;
+    }
+    function search(column, inputId) {
+        var filter = document.getElementById(inputId).value.toUpperCase();
+        var tr = document.getElementById("table").getElementsByTagName("tr");
+        console.log(inputId == "tableInput");
+        if (inputId == "tableInput") {
+            document.getElementById("tableInput2").value = ""
+        } else {
+            document.getElementById("tableInput").value = "";
+        }
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[column];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    </script>
+</html>
